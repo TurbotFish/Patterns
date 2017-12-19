@@ -21,6 +21,17 @@ public class Generator : MonoBehaviour {
 	public float randomness;
 	public List<PatternObject> patternObjects = new List<PatternObject>();
 	List<Reference> references = new List<Reference>();
+	public float totalProb;
+
+
+	void Awake()
+	{
+		float totalProb = 0;
+		foreach(PatternObject po in patternObjects)
+		{
+			totalProb += po.probability;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -52,7 +63,7 @@ public class Generator : MonoBehaviour {
 			for (int j = 0; j<= rows;j++)
 			{
 				Vector2 offset = new Vector2(i*density,j*density);
-				InstantiateObject(origin+offset);
+				StartCoroutine(DelayInstantiate(origin+offset));
 			}
 		}
 
@@ -67,7 +78,7 @@ public class Generator : MonoBehaviour {
 		return pos;
 	}
 
-	void InstantiateObject (Vector2 pos)
+	/*void InstantiateObject (Vector2 pos)
 	{
 		float totalProb = 0;
 		foreach(PatternObject po in patternObjects)
@@ -95,6 +106,34 @@ public class Generator : MonoBehaviour {
 
 		GameObject go;
 		go = Instantiate (patternObjects[index].obj,PosRandom(pos),Quaternion.identity) as GameObject;
-	}
+	}*/
+
+	public IEnumerator DelayInstantiate(Vector2 pos)
+	{
+
+		float p = Random.Range(0,totalProb);
+
+		int index = 0;
+		for (int i = 0; i<patternObjects.Count ; i++)
+		{
+			float test = 0;
+
+			for (int j = 0; i<j; j++)
+			{
+				test += patternObjects[j].probability;
+			}
+
+			if (p<=test)
+			{
+				index = i;
+				break;
+			}
+		}
+
+		GameObject go;
+		go = Instantiate (patternObjects[index].obj,PosRandom(pos),Quaternion.identity) as GameObject;
+		yield return new WaitForEndOfFrame();
+
+	} 
 }
 

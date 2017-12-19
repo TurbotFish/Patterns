@@ -158,11 +158,12 @@ MonoBehaviour:
   randomness: 0.3
   patternObjects:
   - obj: {fileID: 1097932743860236, guid: 22fa13e8b6b414848a2a05c82d52985b, type: 2}
-    probability: 1
+    probability: 0
     space: 0
   - obj: {fileID: 1377790662890302, guid: ddc77b9e2e8151b4bb1b1a57d5f95232, type: 2}
-    probability: 120
+    probability: 200
     space: 0
+  totalProb: 0
 --- !u!1001 &1331392166
 Prefab:
   m_ObjectHideFlags: 0
